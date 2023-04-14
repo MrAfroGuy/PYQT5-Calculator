@@ -1,0 +1,71 @@
+#import required modules
+from PyQt5 import QtWidgets, QtCore, QtGui 
+import sys 
+from PyQt5 import uic
+from PyQt5.QtCore import Qt
+import sqlite3
+class CalculatorMain(QtWidgets.QMainWindow):
+    def __init__(self):
+        super(CalculatorMain,self).__init__()
+        uic.loadUi('CalculatorMain.ui',self)
+        self.show()
+    
+    #Linking The buttons
+        
+
+        self.oneButton.clicked.connect(lambda: self.add_digit('1'))
+        self.twoButton.clicked.connect(lambda: self.add_digit(2))
+        self.threeButton.clicked.connect(lambda: self.add_digit(3))
+        self.fourButton.clicked.connect(lambda: self.add_digit(4))
+        self.fiveButton.clicked.connect(lambda: self.add_digit(5))
+        self.sixButton.clicked.connect(lambda: self.add_digit(6))
+        self.sevenButton.clicked.connect(lambda: self.add_digit(7))
+        self.eightButton.clicked.connect(lambda: self.add_digit(8))
+        self.nineButton.clicked.connect(lambda: self.add_digit(9))
+        self.zeroButton.clicked.connect(lambda: self.add_digit(0))
+
+
+        self.addButton.clicked.connect(lambda: self.add_digit('+'))
+        self.subtractButton.clicked.connect(lambda: self.add_digit('-'))
+        self.divideButton.clicked.connect(lambda: self.add_digit('/'))
+        self.multiplyButton.clicked.connect(lambda: self.add_digit('*'))
+        self.outputButton.clicked.connect(lambda:self.outputs())
+        self.clearButton.clicked.connect(lambda:self.add_digit('C'))
+        self.decimalButton.clicked.connect(lambda:self.add_digit('.'))
+        self.outputLabel.setText("")
+    def outputs(self):
+        '''works out the answer by using the eval function'''
+        
+        displayContents = self.outputLabel.text()
+        
+        answeroutput = eval(displayContents) #does the math using string with operators
+        self.outputLabel.setText(str(answeroutput))
+
+    def add_digit(self,pressed):
+        '''handles events from all buttons connected to it'''
+        
+            
+        if pressed == "C":
+            self.outputLabel.setText("0")
+        else:
+            #remove leading zero
+            if self.outputLabel.text() =="0":
+                self.outputLabel.setText("")
+                
+            #concatenate input with what was there already
+            self.outputLabel.setText(f'{self.outputLabel.text()}{pressed}')
+    
+        
+        
+        
+
+        
+        
+def main():
+    app = QtWidgets.QApplication(sys.argv)
+    window = CalculatorMain()
+    
+    app.exec_()
+    
+    
+main()
